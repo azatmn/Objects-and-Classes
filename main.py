@@ -89,6 +89,24 @@ class Reviewer (Mentor):
                 f"Фамилия: {self.surname} \n")
 
 
+def calculate_course_average(people, course, who):
+    total_sum = 0
+    total_count = 0
+    for person in people:
+        if who == 'students':
+            if course in person.grades:
+                total_sum += sum(person.grades[course])
+                total_count += len(person.grades[course])
+        elif who == 'lecturers':
+            if course in person.courses_attached:
+                total_sum += sum(person.courses_attached[course])
+                total_count += len(person.courses_attached[course])
+        else:
+            return 'Ошибка'
+    if total_count == 0:
+        return 0
+    return total_sum / total_count
+
 best_student = Student('Ruoy', 'Eman', 'man')
 best_student.courses_in_progress += ['Python']
 best_student.courses_in_progress += ['Git']
@@ -98,9 +116,15 @@ other_student = Student('Steve', 'Jobs', 'man')
 other_student.courses_in_progress += ['Python']
 other_student.finished_courses += ['Введение в программирование']
 
+
 cool_mentor = Reviewer('Some', 'Buddy')
 cool_mentor.courses_attached += ['Python']
 cool_mentor.courses_attached += ['Git']
+
+other_mentor = Reviewer('Elon', 'Musk')
+other_mentor.courses_attached += ['Python']
+other_mentor.courses_attached += ['Git']
+other_mentor.courses_attached += ['Введение в программирование']
 
 
 cool_mentor.rate_hw(best_student, 'Python', 10)
@@ -117,9 +141,13 @@ best_student.RatingForLecturer(good_lecturer, 'Python', 7)
 other_lecturer = Lecturer("Mark", "Zuckerberg")
 other_student.RatingForLecturer(other_lecturer, 'Python', 10)
 
-for i in (best_student, other_student, good_lecturer, other_lecturer, cool_mentor):
+for i in (best_student, other_student, good_lecturer, other_lecturer, cool_mentor, other_mentor):
     print(i)
 
 print(f"Лучший студент: {best_student < other_student}\n ")
 
-print(f"Лучший лектор: {good_lecturer < other_lecturer}")
+print(f"Лучший лектор: {good_lecturer < other_lecturer}\n ")
+
+print(f"Средняя оценка по курсу Python у студентов: {calculate_course_average([best_student, other_student], 'Python', 'students')}\n ")
+
+print(f"Средняя оценка по курсу Python у лекторов: {calculate_course_average([good_lecturer, other_lecturer], 'Python', 'lecturrs')}\n ")
