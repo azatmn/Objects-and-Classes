@@ -5,3 +5,5 @@ Now only the Reviewer can give grades to the Student. And a Student can give gra
 Overloaded the magic method __str__ for all classes. Implemented the opportunity to compare lecturers and students according to average grades. Gave examples
 
 Created 2 instances for each class. Added a function to calculate the average course grade for students and lecturers.
+
+Fixed some minor design issues.
